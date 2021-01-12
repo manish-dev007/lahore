@@ -1,0 +1,601 @@
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 7px;
+  }
+  ::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #525965;
+    border: 0px none #ffffff;
+    border-radius: 0px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #525965;
+  }
+  ::-webkit-scrollbar-thumb:active {
+    background: #525965;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+    border: 0px none #ffffff;
+    border-radius: 50px;
+  }
+  ::-webkit-scrollbar-track:hover {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-track:active {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+  .checkout-methods .btn{
+    color: white;
+  }
+  .footer .links li a{
+    color: white;
+  }
+    .owl-carousel .owl-stage-outer{
+            height: 500px;
+    }
+    .product-default .product-title{
+        width: 100%;margin-bottom: 1rem !important;
+    }
+.price-box{
+    display: inline-block;
+}
+.product-default .product-title p{
+    font-size: 13px;
+    font-weight: 600;
+}
+.product-count a {
+  text-decoration: none;
+  font-weight: 700;
+  color: black;
+}
+.addrError,.payError{
+  color: red;font-weight: 700;margin-top: 10px;
+}
+.add_address .col-md-6{
+    width: 49%;
+    display: inline-block;
+}
+.add_address .col-md-4{
+    width: 33%;
+    display: inline-block;
+}
+
+.btn_cart_block
+{
+    display: inline-block;float: right;
+}
+.btn_cart_block a{
+    font-size: 10px;
+    padding: 7px;
+    min-width: 90px;
+    color: white !important;margin-top: -10px;
+}
+.product-default{
+    margin-bottom: 4rem!important;
+    box-shadow: 2px 4px 8px 0 rgba(46, 61, 73, .2);
+    padding: 5px;
+}
+
+.button-count {
+    display: inline-block;
+    width: 30px;
+    height: 34px;
+    background-color: #fa4a4a;
+    color: white;
+    font-size: 24px;
+    line-height: 20px;
+    text-align: center;
+    border: none;
+    outline: none;
+}
+.button-count:active {
+  background-color: #1565C0;
+}
+
+.button-count:focus {
+outline: none;
+ background-color: #343a40;
+}
+
+.number-product {
+    display: inline-block;
+    width: 60px;
+    height: 35px;
+    font-size: 24px;
+    border: 1px solid silver;
+    text-align: center;
+}
+
+:disabled {
+  background-color: silver;
+}
+.header-bottom .cart-dropdown:first-child{
+  margin-left: 100px;
+}
+.header-bottom.sticky-header.fixed .cart-dropdown{
+  display: none;
+}
+.header-bottom.sticky-header.fixed .logo,.header-bottom.sticky-header.fixed .main-nav{
+  display: inline-block;
+}
+
+/* The radio */
+.radio {
+ 
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    display: inline-block;margin-right: 35px;
+}
+
+/* Hide the browser's default radio button */
+.radio input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkround {
+
+    position: absolute;
+    top: 0px;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #fff ;
+    border-color:#fa4a4a;
+    border-style:solid;
+    border-width:2px;
+     border-radius: 50%;
+}
+
+
+/* When the radio button is checked, add a blue background */
+.radio input:checked ~ .checkround {
+    background-color: #fff;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkround:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio input:checked ~ .checkround:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio .checkround:after {
+     left: 2px;
+    top: 2px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background:#fa4a4a;
+}
+.dropdown-cart-action .btn-view{
+  padding:5px !important;min-width: 50px !important;
+}
+#myOrder .card-body .table td,#myOrder .card-body .table th{
+  text-align: center;
+}
+.address_history_checkout_block {
+    border: 1px solid #d5d0d0;
+    border-radius: 2px;
+    padding: 10px;
+    text-align: left;
+    width: 100%;
+    margin-top: 15px;
+}
+.address_history_checkout_block .container_chk {
+    margin-bottom: 50px !important;
+}
+.address_history_checkout_block .chk-adr, .address_history_checkout_block .container_chk {
+    display: inline-block !important;
+    width: auto !important;
+}
+.container_chk input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    border: 1px solid #7c7979;
+}
+.address_history_checkout_block .chk-adr {
+    padding-left: 15%;
+}
+.address_history_checkout_block .adr_name.a1, .address_history_checkout_block .adr_name.a3 {
+    font-weight: 600;
+    margin: unset;
+    font-size: 14px;padding-bottom: 5px;
+}
+.address_history_checkout_block .adr_name {
+    display: inline-block;
+}
+.address_history_checkout_block .adr_type {
+    background: #c8c8c8;
+    width: max-content;
+    padding: 0 5px;
+    font-size: 10px;
+    margin: unset;
+}
+.address_history_checkout_block .adr_adrs {
+    font-size: 12px;
+    margin: unset;padding-top: 8px;
+}
+.radio_adr{
+  display: inline-block;
+    position: absolute;
+    margin-top: 15px;
+}
+.adr-title,.adr-link{
+  display: inline-block;
+}
+.adr-link{
+  float: right;
+}
+.edit_addr{
+  background: #75b7ef;
+  padding: 5px 8px;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  font-size: 13px;
+  text-align: center;
+  color: #282d3b;
+}
+ .del_addr{
+  background: #f79a9a;
+  padding: 5px 8px;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  font-size: 13px;
+  text-align: center;
+  color: #282d3b;
+}
+.adr_profile .radio_adr{
+  padding-left: unset;
+}
+
+.order-detaildel {
+    padding: 10px;
+    margin: 20px 0 10px;
+    background: #f8f8f8;
+}
+.orderdeldet {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 11px;
+    margin: 0 0 10px;
+    border-bottom: 2px solid #959493;
+}
+.order-detaildel p {
+    font-size: 13px;
+    margin: 0px;
+}
+.buttoncancle {
+    margin-left: 15px;
+}
+.btn-theme {
+    text-decoration: none;
+    color: #fff;
+    background-color: #fa4a4a;
+    text-align: center;
+    letter-spacing: .5px;
+    transition: .2s ease-out;
+    cursor: pointer;
+    border: none;
+    border-radius: 2px;
+    padding: 5px 20px;
+}
+.order-detailmain {
+    margin: 40px 0 0;
+}
+.order-detailleft {
+    width: calc(100% - 410px);
+    display: inline-block;
+    vertical-align: top;
+}
+.progressorder {
+    position: relative;
+    padding: 0 1rem 0 3.5rem;
+    margin: 0 0 30px;
+    list-style: none;
+}
+.progress__item {
+    position: relative;
+    min-height: 75px;
+    counter-increment: list;
+    padding-left: 0.5rem;
+}
+.progress__item:before {
+    content: "";
+    position: absolute;
+    left: -1.7rem;
+    top: 23px;
+    height: calc(100% - 22px);
+    width: 1px;
+    border-left: 2px solid #ddd;
+}
+.progress__title {
+    padding: 0rem 0 0.5rem;
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+}
+.progress__info {
+    font-size: 13px;
+    margin: 0px;
+    padding-bottom: 10px;
+}
+.progress__item.progress__item--active:after {
+    background: #67d848;
+    color: #fff;
+}
+.progress__item:after {
+    content: counter(list);
+    position: absolute;
+    top: 0;
+    left: -2.9rem;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #c6c4c4;
+    color: #fff;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 25px;
+    text-align: center;
+    border: 1px solid #fff;
+}
+.order-detailright {
+    width: 400px;
+    display: inline-block;
+    vertical-align: top;
+}
+.order-detailright .lsistblock li {
+    display: block;
+    padding: 0 0 10px;
+    margin: 0 0 15px;
+    border-bottom: 1px solid #ddd;
+}
+.cartproduct {
+    display: flex;
+}
+.cartproduct .cartproductimg {
+    width: 50px !important;
+    height: auto 50px !important;
+}
+.cartdetails {
+    padding-left: 10px;
+}
+.cartdetails .item-name {
+    font-size: 14px;
+    margin: 0px;
+}
+.qnt {
+    margin: 5px 0;
+    color: #888;
+    font-weight: 600;
+    font-size: 13px;
+}
+.wgt {
+    margin-right: 10px;
+}
+.oprice {
+    color: #fa4a4a;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 16px;
+    margin-left: 15px;
+}
+.billdetailblock {
+    padding: 20px 0;
+}
+.billdetailblock h4 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 15px 0;
+    color: #000;
+}
+.billdetailblock ul li {
+    margin: 5px 0;
+    color: #6d6e71;
+    font-size: 15px;
+    position: relative;
+}
+.billdetailblock ul li label {
+    margin: 0px;
+}
+.billdetailblock ul li span {
+    width: 80px;
+    right: 0;
+    position: absolute;
+    color: #000;
+    text-align: right;
+}
+.billdetailblock ul li:last-of-type {
+    color: #6d6e71;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 15px 0;
+    padding-top: 10px;
+    border-top: 1px solid #cbcbcb;
+}
+.billdetailblock ul li {
+    margin: 5px 0;
+    color: #6d6e71;
+    font-size: 15px;
+    position: relative;
+}
+.progress__item:last-child:before {
+    border: none;
+}
+.btn_back{
+    margin: 0 auto;
+    display: block !important;
+    width: fit-content;
+}
+.order_details .odr_addr{
+  margin-bottom: 5px;margin-top: 12px;
+}
+.order_details .orderdeldet h6{
+  margin:unset;
+}
+.whatsapp_ico{
+    display: none;
+    padding: 5px;
+    border-radius: 50%;
+    border: 1px solid #eee;
+    position: absolute;
+    top: 0%;
+    width: 12%;
+    right: 0%;
+    z-index: 1;
+}
+.product-default.mb-4:hover .whatsapp_ico{
+    display: block;
+}
+
+
+.footer-copyright {
+font-size: 1.5rem;
+}
+.check-ul li{
+
+    display: inline-block; 
+}
+.col.contact_no ul li{
+    display: inline-block;
+}
+.col.contact_no ul{
+    margin: unset;
+}
+.header_top{
+    height: 30px;
+    border-bottom: 1px solid #f1f1f1;
+    background-color: #f1f1f1;
+}
+.header_top ul li {
+    display: inline-block;
+    margin-right: 30px;
+    position: relative;
+}
+.header_top ul li a span.lahore_i_icons {
+    height: 12px;
+    margin-right: 5px;
+    position: relative;
+    top: 2px;content: "";
+    display: inline-block;
+    width: 12px;
+}
+.icon_phone { 
+    background: url({{ URL::asset('public/frontend/assets/images/icon-phone.svg') }})no-repeat center center;
+}
+.contact_no ul li a:hover {
+    text-decoration: none;
+}
+.header_top ul li a {
+    color: #404040;
+    display: inline-block;
+    font-size: 11px;
+    padding: 5px 0;
+    transition: color .3s ease-in-out;
+}
+.contact_no ul li:after {
+    background: #e4e4e4;
+    content: "";
+    height: 100%;
+    position: absolute;
+    right: -25px;
+    top: 0;
+    width: 1px;
+}
+.icon_whatsapp {
+    background: url({{ URL::asset('public/frontend/assets/images/icon-whatsapp.svg') }})no-repeat center center;
+}
+.dropdown.media-icons{
+    margin: unset;
+}
+
+.search-autocomplete {
+    background: #fff;
+    left: -15px;
+    max-height: 250px;
+    top: 60px;
+    width: calc(100% + 25px);
+
+    display: none;
+    margin-top: -15px;
+    overflow: hidden;
+    position: absolute;
+    z-index: 3;
+}
+.search-autocomplete ul {
+    margin: 0;
+    margin-left: 0;
+    padding: 0;
+    list-style: none none;
+    max-height: 400px;overflow: scroll;
+}
+.search-autocomplete ul:not(:empty) {
+    border: none;
+    background: #fff;
+}
+.search-autocomplete ul li:first-child {
+    border-top: none;
+}
+.search-autocomplete ul li {
+    border-top: 1px solid #f4f4f4;
+    padding: 12px;
+    cursor: pointer;
+    margin: 0;
+    position: relative;
+    text-align: left;
+    white-space: normal;
+}
+.search-autocomplete ul li a {
+    display: block;
+}
+
+a, a:hover, a:focus, a:active, a:visited {
+    color: #000;text-decoration: none;
+}
+.search-autocomplete ul li:hover:before, .search-autocomplete ul li.selected:before {
+    content: "";
+    background: #f4f4f4;
+    width: 30px;
+    height: calc(100% + 2px);
+    left: -30px;
+    position: absolute;
+    top: -1px;
+}
+.search-autocomplete ul li:hover, .search-autocomplete ul li.selected {
+    background: #f4f4f4;
+}
