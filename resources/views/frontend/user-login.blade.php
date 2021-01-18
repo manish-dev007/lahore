@@ -2,12 +2,16 @@
 @section('title'," | $seo->meta_title")
 
 @section('content') 
-
+<?php $userSession = Session::get('id');
+    if ($userSession) { ?>
+        <script type="text/javascript">window.location.href='user-profile';</script>   
+<?php    }
+?>
 
 <style>
     .main{ width:40%; margin: 5% auto;  }
 </style>
-   <div class="page-wrapper">
+   <div class="page-wrapper"> 
 <main class="main">
 <div class="mfp-cont"><div class="modal-wrapper">
     <div class="container">
@@ -33,10 +37,10 @@
                     <div class="form-footer">
                         <button type="submit" class="btn btn-primary btn-md">LOGIN</button>
                     <a href="{{ route('userRegister') }}" class="btn btn-success btn-md">Sign up</a>
-                        <div class="custom-control custom-checkbox form-footer-right">
+                        <!-- <div class="custom-control custom-checkbox form-footer-right">
                             <input type="checkbox" class="custom-control-input" id="lost-password">
                             <label class="custom-control-label form-footer-right" for="lost-password">Remember Me</label>
-                        </div>
+                        </div> -->
                     </div><!-- End .form-footer -->
 
                         @if(session()->has('success'))

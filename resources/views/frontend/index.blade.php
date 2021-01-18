@@ -265,7 +265,6 @@
                                         </figure>
                                         
                                         <div class="product-details">
-                                            
                                             <h2 class="product-title"> 
                                                 <a href="{{ route('productView', ['id'=>$item['id']]) }}">{{ $data[0]->name }}</a>
                                             <p>(<?php echo $item['model_no']; ?>)</p>
@@ -283,7 +282,7 @@
                                             </div>
                                         <div class="btn_cart_block action_btn_cart-<?php echo $item['id']; ?>">
                                         <?php
-                                            $ar_val = []; 
+                                            $ar_val = array();
                                             if(!empty($usersSession)){
                                             $cart_data = DB::table('cart')
                                                 ->select('cart.id as cart_id','cart.pro_qty','guest_users.name','guest_users.phone' , 'guest_users.email' , 'product_details.*')
@@ -304,6 +303,7 @@
                                                     }                                             
                                                 }  
                                             }
+
                                         if(in_array($item['id'],$ar_val) ){
                                         ?>
                                             <a href="javascript:void(0);" class="btn btn-success btn_cart">Added to Cart</a>
@@ -365,7 +365,7 @@
                                             </div>
                                         <div class="btn_cart_block action_btn_cart-<?php echo $item['id']; ?>">
                                         <?php
-                                            $ar_val = []; 
+                                            $ar_val = array();
                                             if(!empty($usersSession)){
                                             $cart_data = DB::table('cart')
                                                 ->select('cart.id as cart_id','cart.pro_qty','guest_users.name','guest_users.phone' , 'guest_users.email' , 'product_details.*')
@@ -536,43 +536,43 @@
         <div class="container">
             <h2 class="subtitle">Brands</h2>
             <div class="row justify-content-center">
-                {{-- <div class="col-lg-2 col-md-3 col-sm-6 mt-1 mb-1">
+                {{-- <div class="col-lg-3 col-md-3 col-sm-6 mt-1 mb-1">
                     <a href="#" class="partner">
                         <img src="{{ URL::asset('public/frontend/assets/images/logos/1.png') }}" alt="logo">
                     </a>
                 </div>
-                <div class="col-lg-2 col-md-3 col-sm-6 mt-1 mb-1">
+                <div class="col-lg-3 col-md-3 col-sm-6 mt-1 mb-1">
                     <a href="#" class="partner">
                         <img src="{{ URL::asset('public/frontend/assets/images/logos/2.png') }}" alt="logo">
                     </a>
                 </div>
-                <div class="col-lg-2 col-md-3 col-sm-6 mt-1 mb-1">
+                <div class="col-lg-3 col-md-3 col-sm-6 mt-1 mb-1">
                     <a href="#" class="partner">
                         <img src="{{ URL::asset('public/frontend/assets/images/logos/3.png') }}" alt="logo">
                     </a>
                 </div>
-                <div class="col-lg-2 col-md-3 col-sm-6 mt-1 mb-1">
+                <div class="col-lg-3 col-md-3 col-sm-6 mt-1 mb-1">
                     <a href="#" class="partner">
                         <img src="{{ URL::asset('public/frontend/assets/images/logos/4.png') }}" alt="logo">
                     </a>
                 </div>
-                <div class="col-lg-2 col-md-3 col-sm-6 mt-1 mb-1">
+                <div class="col-lg-3 col-md-3 col-sm-6 mt-1 mb-1">
                     <a href="#" class="partner">
                         <img src="{{ URL::asset('public/frontend/assets/images/logos/5.png') }}" alt="logo">
                     </a>
                 </div>
-                <div class="col-lg-2 col-md-3 col-sm-6 mt-1 mb-1">
+                <div class="col-lg-3 col-md-3 col-sm-6 mt-1 mb-1">
                     <a href="#" class="partner">
                         <img src="{{ URL::asset('public/frontend/assets/images/logos/2.png') }}" alt="logo">
                     </a>
                 </div>
-                <div class="col-lg-2 col-md-3 col-sm-6 mt-1 mb-1">
+                <div class="col-lg-3 col-md-3 col-sm-6 mt-1 mb-1">
                     <a href="#" class="partner">
                         <img src="{{ URL::asset('public/frontend/assets/images/logos/1.png') }}" alt="logo">
                     </a>
                 </div> --}}
                 @foreach ($brand_cat as $item)
-                <div class="col-lg-2 col-md-3 col-sm-6 mt-1 mb-1">
+                <div class="col-lg-3 col-md-3 col-sm-6 mt-1 mb-1">
                     <a href="{{ route('brand',['slug'=>$item->slug]) }}" class="partner">
                         @if ($item->logo_img == null)
                             <img src="{{ URL::asset('public/frontend/assets/images/logos/1.png') }}" alt="{{ $item->name }}-logo">

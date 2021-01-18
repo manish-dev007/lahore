@@ -7,19 +7,20 @@
    <div class="container">
       <ol class="breadcrumb">
          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-         <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+         <li class="breadcrumb-item active" aria-current="page">Guest Checkout</li>
       </ol> 
    </div>
    <!-- End .container -->
 </nav>
 
 <?php
-$final_total = 0;$uid = 0;
+$final_total = 0;
 $userSession = Session::get('id');
-if (!empty($userSession)) {
-  $uid = $userSession;
+$adrSession = Session::get('guest_adr');
+if (empty($adrSession)) {
+  $adrSession = '0';
 }
-
+$uid = 0;
 $user = DB::table('guest_users') 
     ->where('id', '=',  $userSession)
     ->first(); 
@@ -61,44 +62,18 @@ foreach($saved_cart_items as $key=>$value){
 <div class="col-lg-8">
  <div class="container">
     <div class="row row-sparse">
-      
 <input type="hidden" name="hiddenuId" value="<?= $userSession; ?>">
-<?php if (empty($userSession)) { ?>
-    <div class="col-md-12">
-      <h2 class="title mb-2 adr-title">Login to Continue</h2>
-      <form action="{{ route('loginCheck') }}" method="POST" class="mb-1">
-                    @csrf
-                    <label for="login-email">Email address <span class="required">*</span></label>
-                    <input name="email" type="email" class="form-input form-wide mb-2" id="login-email" required="">
 
-                    <label for="login-password">Password <span class="required">*</span></label>
-                    <input name="password" type="password" class="form-input form-wide mb-2" id="login-password" required="">
-
-                    <div class="form-footer">
-                        <button type="submit" class="btn btn-primary btn-md">LOGIN</button>
-                    <a href="{{ route('userRegister') }}" class="btn btn-success btn-md">Sign up</a>
-                        
-                    </div><!-- End .form-footer -->
-
-                        @if(session()->has('success'))
-                                    <div class=" alert alert-success">{{ session()->get('success') }}</div>
-                                    @endif
-                                    @if(session()->has('Error'))
-                                    <div class=" alert alert-danger">{{ session()->get('Error') }}</div>
-                                    @endif
-                  
-                    <a href="#" class="forget-password">Forgot your password?</a>
-
-                </form>
-    </div>
-<?php }else{ ?>
-  <div class="col-md-12">
-                <h2 class="title mb-2 adr-title">Select Delivery Address</h2>
-                <a href="javascript:void(0);" class="adr-link" data-toggle="modal" data-target="#addressModal">Add Address</a>
-                <?php $totaladr = count($ShippingAdd); if($totaladr > 0){ ?>
-                    <div class="checkout_addr adr_block_checkout">
+<div class="row">
+                <h2 class="title mb-2 adr-title">Enter Delivery Address</h2>
+                 <?php 
+                   $guest_data = DB::table('shipping_adds')->where('uniq_id','=',$adrSession)->get();
+                   //dd($data);
+                 $totaladr = count($guest_data); if($totaladr > 0){ ?>
+                    <div class="checkout_addr adr_block_checkout" style="width: 100%;">
                       <div class="row">
-                        @foreach($ShippingAdd as $data)
+                        @foreach($guest_data as $data)
+                        <div class="col-md-12">
                           <div class="col-md-6">
                               <div class="address_history_checkout_block">
                                   <label class="radio radio_adr">
@@ -113,28 +88,31 @@ foreach($saved_cart_items as $key=>$value){
                                     </div>
                                 </div>
                           </div>
+                        </div>
                           @endforeach
                       </div>
                       
                       
                   </div>
                   <?php }else{ ?>
-
-<div class="row">
-                <form class="add_address" action="#" method="post" style="width: 100%;">
+                <form class="add_guest_address" action="#" method="post" style="width: 100%;">
                     @csrf
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                       <label for="addr-email">Name <span class="required">*</span></label>
                       <input name="addr-name" type="text" class="form-input form-wide mb-2" id="addr-name" required="">
                     </div>
- 
+                    <input type="hidden" name="utype" value="guest">
+                    <input type="hidden" name="uid" value="<?php echo $uid; ?>">
 
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                     <label for="addr-phone">Phone <span class="required">*</span></label>
                     <input name="addr-phone" type="text" class="form-input form-wide mb-2" id="addr-phone" required="">
                   </div>
-                    <input type="hidden" name="utype" value="user">
-                    <input type="hidden" name="uid" value="<?php echo $uid; ?>">
+
+                  <div class="col-md-4">
+                    <label for="addr-email">Email <span class="required">*</span></label>
+                    <input name="addr-email" type="email" class="form-input form-wide mb-2" id="addr-email" required="">
+                  </div>
 
                     <div class="col-md-12">
                      <label for="addr-address">Full Address <span class="required">*</span></label>
@@ -185,22 +163,14 @@ foreach($saved_cart_items as $key=>$value){
                     </div>
                   </div>
                 </form>
+              <?php } ?>
               </div>
-                  <?php } ?>
                   <p class="addrError"></p>
             </div>
-          <?php } ?>
-
         </div><!-- End .row -->
-
-    <p class="or_chk">OR</p>
-        <div class="col-md-12">
-        <a href="{{ route('guestCheckout') }}" class="btn btn-block btn-sm btn-primary guest_check">Guest Checkout</a>
-      </div>
     </div>
 
-</div>
-<!-- End .col-lg-8 -->
+
 <div class="col-lg-4">
 <div class="cart-summary">
 <h3>Summary</h3>

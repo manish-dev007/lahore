@@ -9,7 +9,11 @@
 <meta name="author" content="SW-THEMES">
 <!-- <meta name="csrf-token" content="{{ csrf_token() }}"> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+<style type="text/css">  
+  .icon_whatsapp {
+      background: url({{ URL::asset('public/frontend/assets/images/icon-whatsapp.svg') }})no-repeat center center;
+  }
+</style>
 
  
 <!-- Favicon -->
@@ -40,16 +44,16 @@ s.parentNode.insertBefore(wf, s);
 </head>
 <body>
 <div class="page-wrapper">
-<header class="header">
+<header class="header"> 
     <div class="header_top text-uppercase">
                 <div class="container">
             <div class="row" style="width: 100%;">
                 <div class="row no-gutters d-flex justify-content-between w-100">
                     <div class="col contact_no">
                                                 <ul>                        
-                            <li>
+                            <!-- <li>
                             <a class="position-relative mr-15" href="tel:+91 8725028886" title="Need help? Contact us"><span class="lahore_i_icons icon_phone"></span>+011 - 28729564</a>
-                            </li>
+                            </li> -->
                             <li class="whatsapp"><a id="wats" href="https://api.whatsapp.com/send?phone=919999998270&amp;text=Hi, I would like to speak to a luxury watch expert at Lahore Watch Co.." title="Need help? Whatsapp us" target="_blank"><span class="lahore_i_icons icon_whatsapp"></span>+91 9999998270</a></li>
                         </ul>                   </div>
                     <div class="col account_headerWrap text-right icon_hover">
@@ -711,6 +715,8 @@ Closes  8:30 PM
                     <label for="addr-phone">Phone <span class="required">*</span></label>
                     <input name="addr-phone" type="text" class="form-input form-wide mb-2" id="addr-phone" required="">
                   </div>
+                    <input type="hidden" name="utype" value="user">
+                    <input type="hidden" name="uid" value="0">
 
                     <div class="col-md-12">
                      <label for="addr-address">Full Address <span class="required">*</span></label>
@@ -1100,9 +1106,7 @@ $(".chnge_password").submit(function(event){
 
    });
 
-
-
-  $(".add_address").submit(function(event){
+  $(".add_address").submit(function(event){ 
       event.preventDefault();
         if (!$('input[name="is_company"]').is(":checked")) {
           alert('Please Select Address Type');
@@ -1119,6 +1123,53 @@ $(".chnge_password").submit(function(event){
           
         fd.append('addr_name',$('input[name=addr-name]').val());
         fd.append('addr_phone',$('input[name=addr-phone]').val());
+        fd.append('u_type',$('input[name=utype]').val());
+        fd.append('uid',$('input[name=uid]').val());
+        fd.append('addr_address',$('textarea[name=addr-address]').val());
+        fd.append('addr_city',$('input[name=addr-city]').val());
+        fd.append('addr_state',$('input[name=addr-state]').val());
+        fd.append('addr_pincode',$('input[name=addr-pincode]').val());
+        fd.append('addr_landmark',$('input[name=addr-landmark]').val());
+        fd.append('addr_is_company',$('input[name="is_company"]:checked').val());
+        
+        $.ajax({
+               type: "POST", 
+               url: url,
+               data: fd,
+               headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+               contentType: false,
+               processData: false,
+               success: function(response)
+               {
+
+                    if (response == 'error') {
+                        alert('Something Went Wrong..')
+                    }else{
+                         window.location.href = '';
+                    }
+               }
+
+           });
+      }      
+
+   });
+
+  $(".add_guest_address").submit(function(event){ 
+      event.preventDefault();
+        if (!$('input[name="is_company"]').is(":checked")) {
+          alert('Please Select Address Type');
+        }else{
+          var fd = new FormData();
+          var dataType = $('input[name=hiddnAdrid]').attr('data-id');
+          var url = '{{route("addGuestAddressForm")}}';
+          
+        fd.append('addr_name',$('input[name=addr-name]').val());
+        fd.append('addr_phone',$('input[name=addr-phone]').val());
+        fd.append('addr_email',$('input[name=addr-email]').val());
+        fd.append('u_type',$('input[name=utype]').val());
+        fd.append('uid',$('input[name=uid]').val());
         fd.append('addr_address',$('textarea[name=addr-address]').val());
         fd.append('addr_city',$('input[name=addr-city]').val());
         fd.append('addr_state',$('input[name=addr-state]').val());

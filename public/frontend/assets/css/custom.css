@@ -38,6 +38,16 @@
   .footer .links li a{
     color: white;
   }
+  .guest_check{
+    width: 30%;
+    margin: 0 auto;color: white !important;
+  }
+  .or_chk{
+    text-align: center;
+    width: 100%;
+    margin: 5% 0;
+    font-weight: 700;
+  }
     .owl-carousel .owl-stage-outer{
             height: 500px;
     }
@@ -59,11 +69,11 @@
 .addrError,.payError{
   color: red;font-weight: 700;margin-top: 10px;
 }
-.add_address .col-md-6{
+.add_address .col-md-6,.add_guest_address .col-md-6{
     width: 49%;
     display: inline-block;
 }
-.add_address .col-md-4{
+.add_address .col-md-4,.add_guest_address .col-md-4{
     width: 33%;
     display: inline-block;
 }
@@ -536,9 +546,6 @@ font-size: 1.5rem;
     right: -25px;
     top: 0;
     width: 1px;
-}
-.icon_whatsapp {
-    background: url({{ URL::asset('public/frontend/assets/images/icon-whatsapp.svg') }})no-repeat center center;
 }
 .dropdown.media-icons{
     margin: unset;

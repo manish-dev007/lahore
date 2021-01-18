@@ -92,6 +92,7 @@ Route::get('/change-password/', "MainController@changePassword")->name('change-p
 Route::post('/changeUsrPassword/', "MainController@changeUsrPassword")->name('changeUsrPassword');
 Route::get('/edit-address', "MainController@editAddress")->name('edit-address');
 Route::post('/addAddressForm', "MainController@addAddressForm")->name('addAddressForm');
+Route::post('/addGuestAddressForm', "MainController@addGuestAddressForm")->name('addGuestAddressForm');
 Route::post('/UpdateAddressForm', "MainController@UpdateAddressForm")->name('UpdateAddressForm');
 Route::post('/deleteAddressForm', "MainController@deleteAddressForm")->name('deleteAddressForm');
 Route::post('/viewAddressForm', "MainController@viewAddressForm")->name('viewAddressForm');
@@ -121,6 +122,7 @@ Route::post('/remove-cart-item', 'MainController@removeCartitem')->name('removeC
 
 Route::get('/checkout-page', 'MainController@checkoutPage')->name('checkoutPage');
 Route::get('/checkout', 'MainController@checkout')->name('checkout');
+Route::get('/guestCheckout', 'MainController@guestCheckout')->name('guestCheckout');
 
 
 Route::post('/update-cart-qnty', 'MainController@updateQnty')->name('updateQnty');

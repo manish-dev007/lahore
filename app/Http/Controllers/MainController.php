@@ -117,13 +117,17 @@ public function PaymentPage(Request $request)
                 Session::put('error',$e->getMessage());
                 return view('frontend.checkout-page');
             }
+            $userSession = Session::get('id');
 
-
-            $this->SaveOrderData($input['address_id'],$input['payOption']);
+            if (empty($userSession)) {
+                echo $this->GuestSaveOrderData($input['address_id'],$input['payOption']);
+            }else{
+                echo $this->SaveOrderData($input['address_id'],$input['payOption']);
+            }
             // Do something here for store payment details in database...
         }
         
-        Session::put('success', 'Payment successful, your order will be despatched soon.');
+        //Session::put('success', 'Payment successful, your order will be despatched soon.');
 
         $seo = SeoTag::where('page_name', '=', 'home')->firstOrFail();
         $brand_cat = Brand::where('status', '=', '1')->get();
@@ -135,7 +139,7 @@ public function PaymentPage(Request $request)
         $userData = GuestUser::where('id', '=', $userSession)->get();
         $userShippingAdd = ShippingAdd::where('uid', '=', $userSession)->get();
         $userOrders =  DB::table('tbl_orders')->where('uid','=',$userSession)->get();
-
+        if (!empty($userSession)) { 
             return view('frontend.user-dashboard',
                 [
                     'seo' => $seo,
@@ -151,7 +155,10 @@ public function PaymentPage(Request $request)
                   
                 ]
 
-        );
+            );
+        }else{ 
+            return redirect('/');
+        }
     }
 
 public function userloginCheck(Request $request)
@@ -182,7 +189,7 @@ if( $userpassword == $user->password){
         $cart_id=isset($dbcart[0]->id)?$dbcart[0]->id:'';
 
 
-        if(!empty($saved_cart_items)){
+        if(!empty($saved_cart_items)){ 
 
                 $item_ids="";
                 $item_qnty="";
@@ -306,18 +313,21 @@ return redirect()->back()->with('Error','Error! Check Your Email Id or Password'
             'addr_name'    => 'required',
             'addr_phone'  => 'required',
             'addr_address'  => 'required',
+            'u_type'  => 'required',
             'addr_city'  => 'required',
             'addr_state'  => 'required',
             'addr_pincode'  => 'required',
             'addr_is_company'  => 'required',
         ]);
-
-        $userid = Session::get('id');
+        $uniq_id = rand(999,9999);
+        
 
 
         $datas = array();
-        $datas['uid']         = $userid;
+        $datas['uid']         = $request->uid;
         $datas['address_line']         = $request->addr_address;
+        $datas['utype']         = $request->u_type;
+        $datas['uniq_id']       = $uniq_id;
         $datas['city']       = $request->addr_city;
         $datas['state']       = $request->addr_state;
         $datas['pincode']       = $request->addr_pincode;
@@ -328,14 +338,67 @@ return redirect()->back()->with('Error','Error! Check Your Email Id or Password'
         $datas['created_at']       = date("Y-m-d H:i:s");
         $datas['updated_at']       = date("Y-m-d H:i:s");
 
+
         $insert_ad = DB::table('shipping_adds')->insert($datas);
 
         if(empty($insert_ad))
-        {
+        {   
             echo "error";
         }
         else
         {
+            if($request->uid == 0){
+                $adrSession = Session::put('guest_adr',$uniq_id);
+            }
+            echo "success";
+        }
+    }
+
+    public function addGuestAddressForm(Request $request)
+    {
+        $this->validate($request,[
+            'addr_name'    => 'required',
+            'addr_phone'  => 'required',
+            'addr_email'  => 'required',
+            'addr_address'  => 'required',
+            'u_type'  => 'required',
+            'addr_city'  => 'required',
+            'addr_state'  => 'required',
+            'addr_pincode'  => 'required',
+            'addr_is_company'  => 'required',
+        ]);
+        $uniq_id = rand(999,9999);
+        
+
+
+        $datas = array();
+        $datas['uid']         = $request->uid;
+        $datas['address_line']         = $request->addr_address;
+        $datas['utype']         = $request->u_type;
+        $datas['uniq_id']       = $uniq_id;
+        $datas['city']       = $request->addr_city;
+        $datas['state']       = $request->addr_state;
+        $datas['pincode']       = $request->addr_pincode;
+        $datas['name']       = $request->addr_name;
+        $datas['phone']       = $request->addr_phone;
+        $datas['guest_email']       = $request->addr_email;
+        $datas['adr_type']       = $request->addr_is_company;
+        $datas['landmark']       = $request->addr_landmark;
+        $datas['created_at']       = date("Y-m-d H:i:s");
+        $datas['updated_at']       = date("Y-m-d H:i:s");
+
+
+        $insert_ad = DB::table('shipping_adds')->insert($datas);
+
+        if(empty($insert_ad))
+        {   
+            echo "error";
+        }
+        else
+        {
+            if($request->uid == 0){
+                $adrSession = Session::put('guest_adr',$uniq_id);
+            }
             echo "success";
         }
     }
@@ -346,6 +409,7 @@ return redirect()->back()->with('Error','Error! Check Your Email Id or Password'
             'addr_name'    => 'required',
             'addr_phone'  => 'required',
             'addr_address'  => 'required',
+            'u_type'  => 'required',
             'addr_city'  => 'required',
             'addr_state'  => 'required',
             'addr_pincode'  => 'required',
@@ -358,6 +422,7 @@ return redirect()->back()->with('Error','Error! Check Your Email Id or Password'
 
         $datas = array();
         $datas['address_line']         = $request->addr_address;
+        $datas['utype']         = $request->u_type;
         $datas['city']       = $request->addr_city;
         $datas['state']       = $request->addr_state;
         $datas['pincode']       = $request->addr_pincode;
@@ -3818,43 +3883,56 @@ public function checkout(Request $request){
         
     }
 
+    public function guestCheckout(Request $request){
+
+        $seo = SeoTag::where('page_name', '=', 'home')->firstOrFail();
+        $brand_cat = Brand::where('status', '=', '1')->get();
+        $collection_cat = Collection::where('status', '=', true)->get();
+        $strap_material_cat = StrapMaterial::where('status', '=', true)->get();
+        $feature_cat = Feature::where('status', '=', true)->get();
+        $footer_brands = Brand::where('status', '=', true)->limit(5)->get();
+        $userSession = Session::get('id');
+        $userData = DB::table('guest_users')->where('id', '=', $userSession)->get();
+        $userAddress = DB::table('shipping_adds')->where('uid', '=', $userSession)->get();
+
+      return view('frontend.guest-checkout',[ 
+        'seo' => $seo,
+        'brand_cat' => $brand_cat,
+        'usersSession'=>$userSession,
+        'strap_material_cat' => $strap_material_cat,
+        'feature_cat' => $feature_cat,
+        'footer_brands' => $footer_brands,
+        'collection_cat' => $collection_cat,
+        'usersData' =>$userData,
+        'ShippingAdd' =>$userAddress,
+        
+      ]);    
+        
+    }
+
     public function CheckoutProduct(Request $request)
     {
         $this->validate($request,[
             'addr_id'    => 'required',
             'pay_option'  => 'required',
         ]);
-
         $userid = Session::get('id');
-        $addrid = $request->addr_id;
-        $payoption = $request->pay_option;
         if(empty($userid)){
-            return view('frontend.index');
+            $addrid = $request->addr_id;
+            $payoption = $request->pay_option;
+            $this->GuestSaveOrderData($addrid,$payoption);
         }else{
+            $addrid = $request->addr_id;
+            $payoption = $request->pay_option;
             $this->SaveOrderData($addrid,$payoption);
-            // $cart_items=array();
-            // $cookie = isset($_COOKIE['cart_items_cookie'])?$_COOKIE['cart_items_cookie']:'';
-            // $cookie = stripslashes($cookie);
-
-            // $saved_cart_items = json_decode($cookie, true);
-
-            // if(count($saved_cart_items)>0){
-            //     foreach($saved_cart_items as $key=>$value){
-            //         if(array_key_exists($key, $saved_cart_items)){
-            //             unset($saved_cart_items[$key]);
-            //         }
-            //     }
-            // }
-            // $json = json_encode($saved_cart_items, true);
-
-            // setcookie('cart_items_cookie', $json, time() + 2592000, "/");
-        }
+        }        
     }
 
 
     public function SaveOrderData($addrid,$payoption)
     {
         $userid = Session::get('id');
+        
         $addr_id = $addrid;
         $payment_method = $payoption;
         if(empty($userid)){
@@ -3947,12 +4025,114 @@ public function checkout(Request $request){
                         
                        if ($status_odr) {
                            echo 'success';
-                           $this->sendOrdermail($invoice_no);
+                           $this->sendOrdermail($invoice_no,$addrid);
                        }else{
                             echo 'error';
                        }
                     
         }
+    }
+}
+
+
+
+public function GuestSaveOrderData($addr_id,$payoption)
+    {
+        $userid = 0;
+        $payment_method = $payoption;
+            if (!empty($payoption)) {
+                $cart_items=array();
+                  
+                // read the cookie
+                 $cookie = isset($_COOKIE['cart_items_cookie']) ? $_COOKIE['cart_items_cookie'] : '';
+                 $cookie = stripslashes($cookie);
+                 $saved_cart_items = json_decode($cookie, true);
+
+
+                    if(count($saved_cart_items)>0){
+                        foreach($saved_cart_items as $key=>$value){
+                            $cart_items[$key]=$value;
+                        }
+                      }
+
+
+                    $cart=get_detailed_cart($cart_items);
+
+                    $products =$cart['products'];
+                    $cart_subtotal  = $cart['actual_cart_subtotal'];
+                    $total_items  = count($cart_items);
+                    $total_amount = $cart['actual_cart_subtotal'];
+
+                $invoice_no=str_random();
+
+                //Add order 
+                $order_details=array('invoice_no'=>$invoice_no,
+                    'uid'=>$userid,
+                    'address_id'=>$addr_id,
+                    'total_items'=>$total_items,
+                    'order_subtotal'=>$cart_subtotal,
+                    'total_amount'=>$total_amount,
+                    'payment_method'=>$payment_method,
+                    'created_at'=>date("Y-m-d H:i:s"),
+                    'updated_at'=>date("Y-m-d H:i:s")
+                );
+                //Order Address
+                $odr_tbl = DB::table('tbl_orders')->insert($order_details);
+                if($odr_tbl)
+                {
+                    $getAddr =  DB::table('shipping_adds')->where('id','=',$addr_id)->get();
+                    if (count($getAddr) > 0) {
+                        foreach ($getAddr as $ad) {
+                            $addressdata=array(
+                                'order_id'=> $invoice_no,
+                                'address_line' => $ad->address_line,
+                                'uid' => $userid,
+                                'name' => $ad->name,
+                                'city' => $ad->city,
+                                'state' => $ad->state,
+                                'pincode' => $ad->pincode,
+                                'phone'=>$ad->phone,
+                                'adr_type'=>$ad->adr_type,
+                                'landmark'=>$ad->landmark,
+                                'date_added' => date("Y-m-d H:i:s"),
+                                'date_modified' => date("Y-m-d H:i:s")
+                            );
+                            DB::table('tbl_order_address')->insert($addressdata);
+                        }
+                    }
+                }
+                //Order Items
+                    if (count($products) > 0) {
+                        foreach ($products as $pd) {
+                            $itemsdata=array(
+                                'order_id'=> $invoice_no,
+                                'item_id' => $pd['itemid'],
+                                'item_name' => $pd['itemname'],
+                                'item_price' => $pd['itemprice'],
+                                'item_qnty' => $pd['itemqty'],
+                                'date_added' => date("Y-m-d H:i:s")
+                            );
+                            DB::table('tbl_order_items')->insert($itemsdata);
+                        }
+                    }
+
+                    //Order Status
+                            $statusdata=array(
+                                'order_id'=> $invoice_no,
+                                'order_status' => 0,
+                                'created_at' => date("Y-m-d H:i:s"),
+                                'updated_at' => date("Y-m-d H:i:s")
+                            );
+                            $status_odr = DB::table('tbl_order_status')->insert($statusdata);
+                        
+                       if ($status_odr) {
+                            //echo 'success';
+                           echo $this->sendOrdermail($invoice_no,$addr_id);
+                       }else{
+                            echo 'error';
+                       }
+                    
+        
     }
 }
 
@@ -4040,15 +4220,25 @@ public function OrderDetails($id){
         } 
 
 
-        public function sendOrdermail($id){
-            $items = $uname = '';
+        public function sendOrdermail($id,$addr_id){
+            $items = $uname = $email = '';
             $userSession = Session::get('id');
-            $userData = GuestUser::where('id', '=', $userSession)->get();
-            foreach ($userData as $udata) {
-                $uname = $udata->name;
-                $email = $udata->email;
+            
+            if(empty($userSession)){
+                $userData = GuestUser::where('id', '=', $userSession)->get();
+                foreach ($userData as $udata) {
+                    $uname = $udata->name;
+                    $email = $udata->email;
+                }
+            }else{
+                $u_info =  DB::table('shipping_adds')->where('id','=',$addr_id)->get();
+                foreach ($u_info as $u_info) {
+                    $uname = $u_info->name;
+                    $email = $u_info->guest_email;
+                }                
             }
-            $userOrders =  DB::table('tbl_orders')->where('invoice_no','=',$id)->where('uid','=',$userSession)->get();
+            
+            $userOrders =  DB::table('tbl_orders')->where('invoice_no','=',$id)->get();
             $order_items = '';
             $paymode = $order_date = $deliv_addr = $order_update_date = '';$odrtotal = $subtotal = 0;
             foreach ($userOrders as $uorder) {
@@ -4057,7 +4247,7 @@ public function OrderDetails($id){
                 $paymode = strtoupper($uorder->payment_method);
                 $order_date = date('d M Y',strtotime($uorder->created_at));
             }
-            $orderAddres =  DB::table('tbl_order_address')->where('order_id','=',$id)->where('uid','=',$userSession)->get();
+            $orderAddres =  DB::table('tbl_order_address')->where('order_id','=',$id)->get();
             foreach ($orderAddres as $orderAdr) {
                 $deliv_addr = '<div style="font-weight:bold;margin-bottom:5px">'.$orderAdr->name.'</div><div style="margin-bottom:5px">'.$orderAdr->address_line.', '.$orderAdr->city.',<br> '.$orderAdr->landmark.',</div><div style="margin-bottom:5px"> '.$orderAdr->state.', '.$orderAdr->pincode.'<br><br><div style="margin-top:15px;margin-bottom:5px"><span style="font-weight:bold">Mobile:</span><span>'.$orderAdr->phone.'</span> </div>';
             }
@@ -4092,22 +4282,17 @@ public function OrderDetails($id){
               'subject' => 'Order No. '.$id.' - Lahore Watch Co. Order Confirmation'
             ];
 
-            // $arrContextOptions=array(
-            //     "ssl"=>array(
-            //         "verify_peer"=>false,
-            //         "verify_peer_name"=>false,
-            //     ),
-            // );  
-
-            // $file = asset("public/frontend/assets/email.html");
-
-            // $en_msg = file_get_contents($file, false, stream_context_create($arrContextOptions));
-
-
             $file = asset("public/frontend/assets/email.html");
-            $en_msg = file_get_contents($file);
+            $arrContextOptions=array(
+                "ssl"=>array(
+                    "verify_peer"=>false,
+                    "verify_peer_name"=>false,
+                ),
+            ); 
+            $en_msg = file_get_contents($file, false, stream_context_create($arrContextOptions));
 
-             $en_msg = str_replace('$order_no', $order_no, $en_msg);
+
+            $en_msg = str_replace('$order_no', $order_no, $en_msg);
             $en_msg = str_replace('$order_status', $order_status, $en_msg);
             $en_msg = str_replace('$order_status1', $order_status1, $en_msg);
             $en_msg = str_replace('$order_update_date', $order_update_date, $en_msg);
@@ -4119,18 +4304,44 @@ public function OrderDetails($id){
             $en_msg = str_replace('$odrtotal', $odrtotal, $en_msg);
             $en_msg = str_replace('$custname', $uname, $en_msg);
             $en_msg = str_replace('$logo_img', $logo_img, $en_msg);
-     
+            
 
-            Mail::to($request->email)->send(new SendOrderConfirmationMail($data));
+            // Mail::to($email)->send(new SendOrderConfirmationMail($data));
 
-            if(count(Mail::failures()) > 0)
-            {
-                return 'Error! Please Try Later.';
+            // if(count(Mail::failures()) > 0)
+            // {
+            //     return 'Error! Please Try Later.';
+            // }
+            // else
+            // {
+
+
+            
+            Session::forget('uniq_id');
+
+            $cart_items=array();
+            $cookie = isset($_COOKIE['cart_items_cookie'])?$_COOKIE['cart_items_cookie']:'';
+            $cookie = stripslashes($cookie);
+
+            $saved_cart_items = json_decode($cookie, true);
+
+            if(count($saved_cart_items)>0){
+                foreach($saved_cart_items as $key=>$value){
+                    if(array_key_exists($key, $saved_cart_items)){
+                        unset($saved_cart_items[$key]);
+                    }
+                }
             }
-            else
-            {
-                return 'Thank you:-) we\'ll get back to you.';
-            }
+
+
+            $json = json_encode($saved_cart_items, true);
+
+            setcookie('cart_items_cookie', $json, time() + 2592000, "/");
+
+
+            // return 'Thank you:-) we\'ll get back to you.';
+
+            
         }
 
     
